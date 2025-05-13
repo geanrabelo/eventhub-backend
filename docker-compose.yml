@@ -1,0 +1,25 @@
+services:
+  postgres-platform-user:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "users"
+    networks:
+      - networkPlatform
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "15432:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - postgres-platform-user
+    networks:
+      - networkPlatform
+networks:
+  networkPlatform:
+    driver: bridge

@@ -42,6 +42,15 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public User(String fullName, String email, String password, UserRole userRole){
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.userRole = userRole;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.userRole == UserRole.ADMIN){

@@ -1,6 +1,9 @@
 spring:
   application:
     name: event-platform-backend
-
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user
+    username: postgres
+    password: postgres
 security:
   secret: "a-string-secret-at-least-32-characters"
