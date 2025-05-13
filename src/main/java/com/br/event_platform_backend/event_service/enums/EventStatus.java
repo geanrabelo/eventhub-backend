@@ -1,4 +1,4 @@
-package com.br.event_platform_backend.event_service;
+package com.br.event_platform_backend.event_service.enums;
 
 public enum EventStatus {
     UPCOMING,

@@ -1,6 +1,6 @@
 package com.br.event_platform_backend.user_service.domain;
 
-import com.br.event_platform_backend.user_service.UserRole;
+import com.br.event_platform_backend.user_service.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 

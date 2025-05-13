@@ -1,7 +1,7 @@
 package com.br.event_platform_backend.event_service.domain;
 
-import com.br.event_platform_backend.event_service.EventCategory;
-import com.br.event_platform_backend.event_service.EventStatus;
+import com.br.event_platform_backend.event_service.enums.EventCategory;
+import com.br.event_platform_backend.event_service.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

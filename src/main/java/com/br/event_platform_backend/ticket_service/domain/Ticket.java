@@ -1,7 +1,7 @@
 package com.br.event_platform_backend.ticket_service.domain;
 
 import com.br.event_platform_backend.event_service.domain.Event;
-import com.br.event_platform_backend.ticket_service.TicketStatus;
+import com.br.event_platform_backend.ticket_service.enums.TicketStatus;
 import com.br.event_platform_backend.user_service.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
