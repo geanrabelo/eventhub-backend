@@ -29,11 +29,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
     @Override
     public String login(AuthenticationDTO authenticationDTO) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationDTO.email()
+        var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationDTO.username()
                 , authenticationDTO.password());
         var authentication = authenticationManager.authenticate(usernamePassword);
 
-        return tokenService.generateToken((User) authentication);
+        return tokenService.generateToken((User) authentication.getPrincipal());
     }
 
     @Override
