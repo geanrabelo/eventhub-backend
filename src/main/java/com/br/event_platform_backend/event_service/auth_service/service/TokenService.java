@@ -1,4 +1,4 @@
-package com.br.event_platform_backend.user_service.service;
+package com.br.event_platform_backend.event_service.auth_service.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

@@ -1,8 +1,7 @@
-package com.br.event_platform_backend.user_service.filter;
+package com.br.event_platform_backend.event_service.auth_service.filter;
 
-import com.br.event_platform_backend.user_service.repository.UserRepository;
-import com.br.event_platform_backend.user_service.service.TokenService;
-import com.br.event_platform_backend.user_service.service.UserService;
+import com.br.event_platform_backend.event_service.auth_service.service.TokenService;
+import com.br.event_platform_backend.event_service.auth_service.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
