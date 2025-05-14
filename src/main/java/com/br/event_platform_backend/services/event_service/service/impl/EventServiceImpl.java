@@ -48,7 +48,7 @@ public class EventServiceImpl implements EventService {
                     .updated_at(LocalDateTime.now())
                     .build();
             eventRepository.save(event);
-            return "";
+            return "Event registered successfully";
         } else if (eventRepository.existsByTittle(eventCreationDTO.tittle())) {
             throw new EventTittleAlreadyExists("Already exists event with this tittle");
         }else{
