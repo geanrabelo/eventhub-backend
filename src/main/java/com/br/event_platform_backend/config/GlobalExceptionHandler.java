@@ -57,4 +57,10 @@ public class GlobalExceptionHandler {
     public ErrorResponse ticketHaventAvailableHandler(TicketHaventAvailable ticketHaventAvailable){
         return ErrorResponse.conflict(ticketHaventAvailable.getMessage());
     }
+
+    @ExceptionHandler(EventTicketInvalid.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse eventTicketInvalidHandler(EventTicketInvalid eventTicketInvalid){
+        return ErrorResponse.conflict(eventTicketInvalid.getMessage());
+    }
 }

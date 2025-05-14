@@ -1,6 +1,7 @@
 package com.br.event_platform_backend.services.event_service.service.impl;
 
 import com.br.event_platform_backend.exceptions.EventNotFound;
+import com.br.event_platform_backend.exceptions.EventTicketInvalid;
 import com.br.event_platform_backend.exceptions.EventTittleAlreadyExists;
 import com.br.event_platform_backend.exceptions.UserNotFound;
 import com.br.event_platform_backend.services.event_service.domain.Event;
@@ -31,24 +32,30 @@ public class EventServiceImpl implements EventService {
     public String createEvent(EventCreationDTO eventCreationDTO) {
         if(!eventRepository.existsByTittle(eventCreationDTO.tittle()) && userRepository.existsById(eventCreationDTO.userId())){
             User user = userRepository.getReferenceById(eventCreationDTO.userId());
-            Event event = Event
-                    .builder()
-                    .tittle(eventCreationDTO.tittle())
-                    .description(eventCreationDTO.description())
-                    .location(eventCreationDTO.location())
-                    .startDateTime(eventCreationDTO.startDateTime())
-                    .endDateTime(eventCreationDTO.endDateTime())
-                    .user(user)
-                    .totalTickets(eventCreationDTO.totalTickets())
-                    .availableTickets(eventCreationDTO.availableTickets())
-                    .price(eventCreationDTO.price())
-                    .eventCategory(eventCreationDTO.eventCategory())
-                    .eventStatus(eventCreationDTO.eventStatus())
-                    .createdAt(LocalDateTime.now())
-                    .updated_at(LocalDateTime.now())
-                    .build();
-            eventRepository.save(event);
-            return "Event registered successfully";
+            if(eventCreationDTO.availableTickets() > eventCreationDTO.totalTickets()
+            ||
+            eventCreationDTO.availableTickets() < 0){
+                Event event = Event
+                        .builder()
+                        .tittle(eventCreationDTO.tittle())
+                        .description(eventCreationDTO.description())
+                        .location(eventCreationDTO.location())
+                        .startDateTime(eventCreationDTO.startDateTime())
+                        .endDateTime(eventCreationDTO.endDateTime())
+                        .user(user)
+                        .totalTickets(eventCreationDTO.totalTickets())
+                        .availableTickets(eventCreationDTO.availableTickets())
+                        .price(eventCreationDTO.price())
+                        .eventCategory(eventCreationDTO.eventCategory())
+                        .eventStatus(eventCreationDTO.eventStatus())
+                        .createdAt(LocalDateTime.now())
+                        .updated_at(LocalDateTime.now())
+                        .build();
+                eventRepository.save(event);
+                return "Event registered successfully";
+            }else{
+                throw new EventTicketInvalid("Tickets invalid");
+            }
         } else if (eventRepository.existsByTittle(eventCreationDTO.tittle())) {
             throw new EventTittleAlreadyExists("Already exists event with this tittle");
         }else{

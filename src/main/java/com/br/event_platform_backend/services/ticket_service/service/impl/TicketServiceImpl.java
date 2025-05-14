@@ -53,7 +53,7 @@ public class TicketServiceImpl implements TicketService {
                         eventRepository.save(eventExists);
                         return "Ticket registered successfully";
                     }else{
-                        throw new TicketHaventAvailable("Dont have ticket available in moment");
+                        throw new TicketHaventAvailable("Don´t have ticket available in moment");
                     }
             }
             throw new EventNotFound("Event find by id not found");
