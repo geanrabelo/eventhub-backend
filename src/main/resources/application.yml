@@ -2,7 +2,7 @@ spring:
   application:
     name: event-platform-backend
   datasource:
-    url: jdbc:postgresql://localhost:5432/users
+    url: jdbc:postgresql://localhost:5432/platform-backend
     username: postgres
     password: postgres
 security:

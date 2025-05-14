@@ -34,7 +34,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.findAll());
     }
 
-    @GetMapping
+    @GetMapping("/id")
     public ResponseEntity<EventDetailsDTO> findById(@RequestParam(name = "id") String id){
         return ResponseEntity.ok(eventService.findById(UUID.fromString(id)));
     }

@@ -30,6 +30,10 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST,  "/v1/platform/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/platform/event/**").hasRole("ORGANIZER")
+                        .requestMatchers(HttpMethod.GET, "/v1/platform/event/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE, "/v1/platform/event/**").hasRole("ORGANIZER")
+
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -5,5 +5,6 @@ public enum EventCategory {
     TECH,
     SPORTS,
     DANCE,
-    HEALTH
+    HEALTH,
+    VEHICLE
 }

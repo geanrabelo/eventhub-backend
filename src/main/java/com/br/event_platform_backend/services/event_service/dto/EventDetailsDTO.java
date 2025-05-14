@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record EventDetailsDTO(UUID id,
-                              String title,
+                              String tittle,
                               String description,
                               String location,
                               LocalDateTime startDateTime,
@@ -25,7 +25,7 @@ public record EventDetailsDTO(UUID id,
     public EventDetailsDTO(Event event){
         this(
                 event.getId(),
-                event.getTitle(),
+                event.getTittle(),
                 event.getDescription(),
                 event.getLocation(),
                 event.getStartDateTime(),
