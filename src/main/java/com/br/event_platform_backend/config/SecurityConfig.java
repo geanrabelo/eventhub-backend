@@ -30,6 +30,8 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST,  "/v1/platform/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "v1/platform/auth/**").hasAnyRole("ADMIN", "ORGANIZER", "CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE, "/v1/platform/auth/**").hasAnyRole("ADMIN", "ORGANIZER")
                         .requestMatchers(HttpMethod.POST, "/v1/platform/event/**").hasAnyRole("ADMIN", "ORGANIZER")
                         .requestMatchers(HttpMethod.GET, "/v1/platform/event/**").hasAnyRole("ADMIN", "ORGANIZER", "CUSTOMER")
                         .requestMatchers(HttpMethod.DELETE,"/v1/platform/event/**").hasAnyRole("ADMIN", "ORGANIZER")
