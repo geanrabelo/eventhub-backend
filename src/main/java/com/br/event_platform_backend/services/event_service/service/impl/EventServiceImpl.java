@@ -32,9 +32,9 @@ public class EventServiceImpl implements EventService {
     public String createEvent(EventCreationDTO eventCreationDTO) {
         if(!eventRepository.existsByTittle(eventCreationDTO.tittle()) && userRepository.existsById(eventCreationDTO.userId())){
             User user = userRepository.getReferenceById(eventCreationDTO.userId());
-            if(eventCreationDTO.availableTickets() > eventCreationDTO.totalTickets()
-            ||
-            eventCreationDTO.availableTickets() < 0){
+            if(eventCreationDTO.availableTickets() <= eventCreationDTO.totalTickets()
+            &&
+            eventCreationDTO.availableTickets() > 0){
                 Event event = Event
                         .builder()
                         .tittle(eventCreationDTO.tittle())
