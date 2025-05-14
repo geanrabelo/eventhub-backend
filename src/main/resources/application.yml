@@ -6,4 +6,4 @@ spring:
     username: postgres
     password: postgres
 security:
-  secret: "a-string-secret-at-least-32-characters"
+  secret: a-string-secret-at-least-32-characters
