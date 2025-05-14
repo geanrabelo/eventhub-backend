@@ -7,10 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record NotificationSendDTO(UUID userId,
-                                  NotificationType notificationType,
                                   String subject,
-                                  String message,
-                                  NotificationStatus notificationStatus,
-                                  LocalDateTime sentAt) {
+                                  String message) {
 
 }

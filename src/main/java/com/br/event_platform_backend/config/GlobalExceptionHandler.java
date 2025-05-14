@@ -63,4 +63,10 @@ public class GlobalExceptionHandler {
     public ErrorResponse eventTicketInvalidHandler(EventTicketInvalid eventTicketInvalid){
         return ErrorResponse.conflict(eventTicketInvalid.getMessage());
     }
+
+    @ExceptionHandler(NotificationNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse notificationNotFoundHandler(NotificationNotFound notificationNotFound){
+        return ErrorResponse.notFound(notificationNotFound.getMessage());
+    }
 }
