@@ -2,6 +2,7 @@ package com.br.event_platform_backend.services.event_service.domain;
 
 import com.br.event_platform_backend.services.event_service.enums.EventCategory;
 import com.br.event_platform_backend.services.event_service.enums.EventStatus;
+import com.br.event_platform_backend.services.user_service.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,7 +35,9 @@ public class Event {
     @Column(name = "end_date_time")
     private LocalDateTime endDateTime;
 
-    //referencia a usuario
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "total_tickets")
     private Integer totalTickets;
