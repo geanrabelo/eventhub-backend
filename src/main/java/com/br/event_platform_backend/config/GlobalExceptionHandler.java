@@ -28,6 +28,12 @@ public class GlobalExceptionHandler {
         return ErrorResponse.conflict(eventTittleAlreadyExists.getMessage());
     }
 
+    @ExceptionHandler(TicketUserAlreadyExists.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse ticketUserAlreadyExists(TicketUserAlreadyExists ticketUserAlreadyExists){
+        return ErrorResponse.conflict(ticketUserAlreadyExists.getMessage());
+    }
+
     @ExceptionHandler(UserNotFound.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse userNotFoundHandler(UserNotFound userNotFound){
@@ -38,5 +44,11 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse eventNotFoundHandler(EventNotFound eventNotFound){
         return ErrorResponse.notFound(eventNotFound.getMessage());
+    }
+
+    @ExceptionHandler(TicketNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse ticketNotFoundHandler(TicketNotFound ticketNotFound){
+        return ErrorResponse.notFound(ticketNotFound.getMessage());
     }
 }
