@@ -31,8 +31,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST,  "/v1/platform/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/platform/event/**").hasAnyRole("ADMIN", "ORGANIZER")
-                        .requestMatchers(HttpMethod.GET, "/v1/platform/event/**").hasAnyRole("ADMIN","ORGANIZER","CUSTOMER")
-                        .requestMatchers(HttpMethod.DELETE, "/v1/platform/event/**").hasAnyRole("ADMIN", "ORGANIZER")
+                        .requestMatchers(HttpMethod.GET, "/v1/platform/event/**").hasAnyRole("ADMIN", "ORGANIZER", "CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE,"/v1/platform/event/**").hasAnyRole("ADMIN", "ORGANIZER")
 
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
