@@ -15,5 +15,17 @@ spring:
         smtp:
           auth: true
           enable: true
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: com.br.event_platform_backend.services.user_service.dto.UserDetailsKafkaDTO
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: notification-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: com.br.event_platform_backend.services.user_service.dto.UserDetailsKafkaDTO
+    group-id:
 security:
   secret: a-string-secret-at-least-32-characters

@@ -6,6 +6,7 @@ import com.br.event_platform_backend.services.user_service.dto.AuthenticationDTO
 import com.br.event_platform_backend.services.user_service.dto.RegisterDTO;
 import com.br.event_platform_backend.services.user_service.dto.UserDetailsDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

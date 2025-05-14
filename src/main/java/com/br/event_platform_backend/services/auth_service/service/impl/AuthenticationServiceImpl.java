@@ -9,7 +9,9 @@ import com.br.event_platform_backend.services.user_service.domain.User;
 import com.br.event_platform_backend.services.user_service.dto.AuthenticationDTO;
 import com.br.event_platform_backend.services.user_service.dto.RegisterDTO;
 import com.br.event_platform_backend.services.user_service.dto.UserDetailsDTO;
+import com.br.event_platform_backend.services.user_service.dto.UserDetailsKafkaDTO;
 import com.br.event_platform_backend.services.user_service.repository.UserRepository;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,20 +26,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
+    private final KafkaTemplate<String, UserDetailsKafkaDTO> kafkaTemplate;
+
 
     public AuthenticationServiceImpl(UserRepository userRepository,
                                      TokenService tokenService,
-                                     AuthenticationManager authenticationManager){
+                                     AuthenticationManager authenticationManager,
+                                     KafkaTemplate<String, UserDetailsKafkaDTO> kafkaTemplate){
         this.userRepository = userRepository;
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
+        this.kafkaTemplate = kafkaTemplate;
     }
     @Override
     public String login(AuthenticationDTO authenticationDTO) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationDTO.username()
                 , authenticationDTO.password());
         var authentication = authenticationManager.authenticate(usernamePassword);
-
         return tokenService.generateToken((User) authentication.getPrincipal());
     }
 
@@ -54,7 +59,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     registerDTO.username(),
                     passwordCrypt,
                     registerDTO.userRole());
-            userRepository.save(user);
+            User userSaved = userRepository.save(user);
+            UserDetailsKafkaDTO userDetailsKafkaDTO = new UserDetailsKafkaDTO(userSaved);
+            kafkaTemplate.send("auth-topic", userDetailsKafkaDTO);
         }
     }
 
