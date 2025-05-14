@@ -23,7 +23,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String title;
+    private String tittle;
 
     private String description;
 
