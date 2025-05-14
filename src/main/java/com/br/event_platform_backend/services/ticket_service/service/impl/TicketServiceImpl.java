@@ -1,6 +1,7 @@
 package com.br.event_platform_backend.services.ticket_service.service.impl;
 
 import com.br.event_platform_backend.exceptions.EventNotFound;
+import com.br.event_platform_backend.exceptions.TicketHaventAvailable;
 import com.br.event_platform_backend.exceptions.TicketNotFound;
 import com.br.event_platform_backend.exceptions.TicketUserAlreadyExists;
 import com.br.event_platform_backend.services.event_service.domain.Event;
@@ -36,18 +37,24 @@ public class TicketServiceImpl implements TicketService {
     public String createTicket(TicketCreationDTO ticketCreationDTO) {
         if(!ticketRepository.existsByUserId(ticketCreationDTO.userId())){
             if(eventRepository.existsById(ticketCreationDTO.eventId())){
-                Event eventExists = eventRepository.getReferenceById(ticketCreationDTO.eventId());
-                User userExists = userRepository.getReferenceById(ticketCreationDTO.userId());
-                Ticket ticket = Ticket
-                        .builder()
-                        .event(eventExists)
-                        .user(userExists)
-                        .purchaseDateTime(LocalDateTime.now())
-                        .ticketStatus(TicketStatus.ACTIVE)
-                        .pricePaid(eventExists.getPrice())
-                        .build();
-                ticketRepository.save(ticket);
-                return "Ticket registered successfully";
+                    Event eventExists = eventRepository.getReferenceById(ticketCreationDTO.eventId());
+                    if(eventExists.getAvailableTickets() > 0){
+                        User userExists = userRepository.getReferenceById(ticketCreationDTO.userId());
+                        Ticket ticket = Ticket
+                                .builder()
+                                .event(eventExists)
+                                .user(userExists)
+                                .purchaseDateTime(LocalDateTime.now())
+                                .ticketStatus(TicketStatus.ACTIVE)
+                                .pricePaid(eventExists.getPrice())
+                                .build();
+                        ticketRepository.save(ticket);
+                        eventExists.setAvailableTickets(eventExists.getAvailableTickets() - 1);
+                        eventRepository.save(eventExists);
+                        return "Ticket registered successfully";
+                    }else{
+                        throw new TicketHaventAvailable("Dont have ticket available in moment");
+                    }
             }
             throw new EventNotFound("Event find by id not found");
         }

@@ -51,4 +51,10 @@ public class GlobalExceptionHandler {
     public ErrorResponse ticketNotFoundHandler(TicketNotFound ticketNotFound){
         return ErrorResponse.notFound(ticketNotFound.getMessage());
     }
+
+    @ExceptionHandler(TicketHaventAvailable.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse ticketHaventAvailableHandler(TicketHaventAvailable ticketHaventAvailable){
+        return ErrorResponse.conflict(ticketHaventAvailable.getMessage());
+    }
 }
