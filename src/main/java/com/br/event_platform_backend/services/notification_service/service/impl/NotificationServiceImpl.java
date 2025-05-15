@@ -11,7 +11,6 @@ import com.br.event_platform_backend.services.notification_service.repository.No
 import com.br.event_platform_backend.services.notification_service.service.NotificationService;
 import com.br.event_platform_backend.services.user_service.domain.User;
 import com.br.event_platform_backend.services.user_service.dto.UserDetailsDTO;
-import com.br.event_platform_backend.services.user_service.dto.UserDetailsKafkaDTO;
 import com.br.event_platform_backend.services.user_service.repository.UserRepository;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.SimpleMailMessage;
@@ -73,26 +72,5 @@ public class NotificationServiceImpl implements NotificationService {
             return new NotificationDetailsDTO(notificationDatabase);
         }
         throw new NotificationNotFound("Notification find by id not found");
-    }
-
-    @KafkaListener(topics = "auth-topic", groupId = "notification-group")
-    public void listenerAuth(UserDetailsKafkaDTO userDetailsKafkaDTO){
-        SimpleMailMessage message = new SimpleMailMessage();
-        User user = userRepository.getReferenceById(userDetailsKafkaDTO.getId());
-        Notification notification = Notification
-                .builder()
-                .user(user)
-                .notificationType(NotificationType.EMAIL)
-                .notificationStatus(NotificationStatus.SENT)
-                .subject("Register in platform")
-                .message("Thank you for registered in platform-events")
-                .sentAt(LocalDateTime.now())
-                .build();
-        message.setFrom(email);
-        message.setTo(userDetailsKafkaDTO.getEmail());
-        message.setSubject(notification.getSubject());
-        message.setText(notification.getMessage());
-        javaMailSender.send(message);
-        notificationRepository.save(notification);
     }
 }

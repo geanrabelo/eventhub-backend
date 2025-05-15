@@ -9,7 +9,6 @@ import com.br.event_platform_backend.services.user_service.domain.User;
 import com.br.event_platform_backend.services.user_service.dto.AuthenticationDTO;
 import com.br.event_platform_backend.services.user_service.dto.RegisterDTO;
 import com.br.event_platform_backend.services.user_service.dto.UserDetailsDTO;
-import com.br.event_platform_backend.services.user_service.dto.UserDetailsKafkaDTO;
 import com.br.event_platform_backend.services.user_service.repository.UserRepository;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,17 +25,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
-    private final KafkaTemplate<String, UserDetailsKafkaDTO> kafkaTemplate;
 
 
     public AuthenticationServiceImpl(UserRepository userRepository,
                                      TokenService tokenService,
-                                     AuthenticationManager authenticationManager,
-                                     KafkaTemplate<String, UserDetailsKafkaDTO> kafkaTemplate){
+                                     AuthenticationManager authenticationManager){
         this.userRepository = userRepository;
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
-        this.kafkaTemplate = kafkaTemplate;
     }
     @Override
     public String login(AuthenticationDTO authenticationDTO) {
@@ -60,8 +56,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     passwordCrypt,
                     registerDTO.userRole());
             User userSaved = userRepository.save(user);
-            UserDetailsKafkaDTO userDetailsKafkaDTO = new UserDetailsKafkaDTO(userSaved);
-            kafkaTemplate.send("auth-topic", userDetailsKafkaDTO);
         }
     }
 
