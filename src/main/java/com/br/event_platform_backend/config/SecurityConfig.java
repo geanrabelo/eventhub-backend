@@ -38,7 +38,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/v1/platform/ticket/**").hasAnyRole("ADMIN", "ORGANIZER")
                         .requestMatchers(HttpMethod.GET, "/v1/platform/ticket/**").hasAnyRole("ADMIN", "ORGANIZER", "CUSTOMER")
                         .requestMatchers(HttpMethod.DELETE,"/v1/platform/ticket/**").hasAnyRole("ADMIN", "ORGANIZER")
-
+                        .requestMatchers(HttpMethod.POST, "/v1/platform/notification/**").hasAnyRole("ADMIN", "ORGANIZER")
+                        .requestMatchers(HttpMethod.GET, "/v1/platform/notification/**").hasAnyRole("ADMIN", "ORGANIZER", "CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE,"/v1/platform/notification/**").hasAnyRole("ADMIN", "ORGANIZER")
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

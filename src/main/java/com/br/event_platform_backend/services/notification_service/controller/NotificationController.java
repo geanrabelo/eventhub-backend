@@ -4,6 +4,7 @@ import com.br.event_platform_backend.services.auth_service.dto.MessageDTO;
 import com.br.event_platform_backend.services.notification_service.dto.NotificationDetailsDTO;
 import com.br.event_platform_backend.services.notification_service.dto.NotificationSendDTO;
 import com.br.event_platform_backend.services.notification_service.service.NotificationService;
+import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +25,7 @@ public class NotificationController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<MessageDTO> sendNotification(@RequestBody @Validated NotificationSendDTO notificationSendDTO){
+    public ResponseEntity<MessageDTO> sendNotification(@RequestBody @Validated NotificationSendDTO notificationSendDTO) throws MessagingException {
         notificationService.sendMessage(notificationSendDTO);
         return ResponseEntity.ok(new MessageDTO("Notification send and registered successfully"));
     }

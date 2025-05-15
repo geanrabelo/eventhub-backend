@@ -6,14 +6,18 @@ spring:
     username: postgres
     password: postgres
   mail:
-    host: smtp.gmail.com
+    host: email-smtp.us-east-2.amazonaws.com
     port: 587
-    username: geancardosorabelomota@gmail.com
-    password: oqky gmeo okfg tuqg
+    username: AKIAYQNJSYEANZFNQY7U
+    password: BJ11P/3Dk/8sc9ekgwpX0cL5VNtsW1K24/iNjOu7KfnB
     properties:
       mail:
         smtp:
           auth: true
-          enable: true
+          starttls:
+            enabled: true
+          connectionTimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
 security:
   secret: a-string-secret-at-least-32-characters

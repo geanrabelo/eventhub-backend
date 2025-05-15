@@ -12,13 +12,17 @@ import com.br.event_platform_backend.services.notification_service.service.Notif
 import com.br.event_platform_backend.services.user_service.domain.User;
 import com.br.event_platform_backend.services.user_service.dto.UserDetailsDTO;
 import com.br.event_platform_backend.services.user_service.repository.UserRepository;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 @Service
@@ -37,10 +41,12 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendMessage(NotificationSendDTO notificationSendDTO) {
+    public void sendMessage(NotificationSendDTO notificationSendDTO) throws MessagingException {
         if(userRepository.existsById(notificationSendDTO.userId())){
-            SimpleMailMessage message = new SimpleMailMessage();
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             User user = userRepository.getReferenceById(notificationSendDTO.userId());
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+
             Notification notification = Notification
                     .builder()
                     .user(user)
@@ -50,11 +56,13 @@ public class NotificationServiceImpl implements NotificationService {
                     .message(notificationSendDTO.message())
                     .sentAt(LocalDateTime.now())
                     .build();
-            message.setFrom(email);
-            message.setTo(user.getEmail());
-            message.setSubject(notification.getSubject());
-            message.setText(notification.getMessage());
-            javaMailSender.send(message);
+
+            mimeMessageHelper.setFrom(email);
+            mimeMessageHelper.setTo(email);
+            mimeMessageHelper.setSubject(notification.getSubject());
+            mimeMessageHelper.setText(notification.getMessage());
+
+            javaMailSender.send(mimeMessage);
         }else{
             throw new UserNotFound("User find by id not found");
         }
